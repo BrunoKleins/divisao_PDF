@@ -1,0 +1,24 @@
+import PyPDF2
+
+def split_pdf(input_pdf_path, output_folder):
+    # Abre o arquivo PDF em modo de leitura binária
+    with open(input_pdf_path, 'rb') as arquivo:
+        # Cria um objeto leitor de PDF
+        pdf_reader = PyPDF2.PdfReader(arquivo)
+
+        # Itera sobre cada página no PDF
+        for page_number in range(len(pdf_reader.pages)):
+            # Cria um novo objeto de escrita de PDF
+            pdf_writer = PyPDF2.PdfWriter()
+
+            # Adiciona a página atual ao objeto de escrita
+            pdf_writer.add_page(pdf_reader.pages[page_number])
+
+            # Cria um novo arquivo PDF para cada página
+            output_pdf_path = f"{output_folder}/page_{page_number + 1}.pdf"
+            with open(output_pdf_path, 'wb') as output_file:
+                # Escreve a página no novo arquivo PDF
+                pdf_writer.write(output_file)
+
+# Exemplo de uso
+split_pdf('nome_arquivo.pdf', 'output_folder')
